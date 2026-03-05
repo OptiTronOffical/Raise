@@ -7,7 +7,6 @@ import { BottomNav } from "../../components/BottomNav";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { api } from "../../lib/api";
-import QRCode from "react-qr-code";
 
 // Types
 interface User {
@@ -24,6 +23,7 @@ interface Balance {
 }
 
 interface ReferralStats {
+  ok: boolean;
   invited: number;
   active: number;
   friends_stake_ton: string;
@@ -51,7 +51,6 @@ export default function Referrals() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [claiming, setClaiming] = useState(false);
-  const [showQR, setShowQR] = useState(false);
   const [selectedTab, setSelectedTab] = useState<'stats' | 'list'>('stats');
 
   const fetchData = useCallback(async () => {
@@ -116,7 +115,7 @@ export default function Referrals() {
     
     try {
       setClaiming(true);
-      const result = await api.claimReferral();
+      const result = await api.referralClaim();
       if (result.ok) {
         await fetchData(); // Refresh data
       }
@@ -173,7 +172,7 @@ export default function Referrals() {
       <div className="card referralCard">
         <div className="referralHeader">
           <div className="referralTitle">
-            <span className="emoji">👥</span>
+            <span className="emoji"></span>
             Your Referral Link
           </div>
           <div className="referralRate">Earn 0.25% of friend's bets</div>
@@ -181,7 +180,7 @@ export default function Referrals() {
 
         <div className="linkContainer">
           <div className="linkBox">
-            <span className="linkText">{refLink || "—"}</span>
+            <span className="linkText">{refLink || "�"}</span>
           </div>
           
           <div className="linkActions">
@@ -190,7 +189,7 @@ export default function Referrals() {
               onClick={handleCopyLink}
               title="Copy link"
             >
-              {copied ? '✓' : '📋'}
+              {copied ? '' : ''}
             </button>
             
             {typeof navigator.share !== 'undefined' && (
@@ -199,26 +198,11 @@ export default function Referrals() {
                 onClick={handleShare}
                 title="Share"
               >
-                📤
+                
               </button>
             )}
-            
-            <button 
-              className="actionButton qrButton"
-              onClick={() => setShowQR(!showQR)}
-              title="Show QR code"
-            >
-              📱
-            </button>
           </div>
         </div>
-
-        {showQR && (
-          <div className="qrContainer">
-            <QRCode value={refLink} size={200} />
-            <div className="qrHint">Scan to open in Telegram</div>
-          </div>
-        )}
       </div>
 
       {/* Tabs */}
@@ -289,7 +273,7 @@ export default function Referrals() {
 
           {/* How it works */}
           <div className="howItWorks">
-            <div className="howTitle">📖 How it works</div>
+            <div className="howTitle"> How it works</div>
             <div className="steps">
               <div className="step">
                 <div className="stepNumber">1</div>
@@ -311,7 +295,7 @@ export default function Referrals() {
         <div className="referralsList">
           {!stats?.referrals || stats.referrals.length === 0 ? (
             <div className="emptyState">
-              <div className="emptyIcon">👥</div>
+              <div className="emptyIcon"></div>
               <div className="emptyTitle">No referrals yet</div>
               <div className="emptyText">
                 Share your referral link to start earning rewards!
@@ -445,22 +429,6 @@ export default function Referrals() {
           background: #10b981;
           color: white;
           border-color: #10b981;
-        }
-
-        .qrContainer {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 20px;
-          background: white;
-          border-radius: 12px;
-          margin-top: 16px;
-        }
-
-        .qrHint {
-          margin-top: 12px;
-          color: #64748b;
-          font-size: 13px;
         }
 
         .tabs {
