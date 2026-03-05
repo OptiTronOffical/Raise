@@ -180,7 +180,7 @@ export default function Referrals() {
 
         <div className="linkContainer">
           <div className="linkBox">
-            <span className="linkText">{refLink || "—"}</span>
+            <span className="linkText">{refLink || "â€”"}</span>
           </div>
           
           <div className="linkActions">
