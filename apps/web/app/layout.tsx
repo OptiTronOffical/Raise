@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Optimize font loading
 const inter = Inter({ 
@@ -131,10 +129,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <div className="appShell">
           {children}
         </div>
-        
-        {/* Performance monitoring */}
-        <Analytics />
-        <SpeedInsights />
         
         {/* Service Worker registration for PWA */}
         <script

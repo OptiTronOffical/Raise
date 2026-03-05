@@ -191,7 +191,7 @@ export default function Home() {
   const handleReelDone = () => {
     setSpinning(false);
     if (showWinAlert && winning) {
-      setSuccess(`🎉 You won NFT #${winning}!`);
+      setSuccess(` You won NFT #${winning}!`);
       setShowWinAlert(false);
     }
   };
@@ -236,7 +236,7 @@ export default function Home() {
 
       <div className="header">
         <div className="h2">Jackpot Game</div>
-        <div className="headerSub">Round #{state?.round_id || "—"}</div>
+        <div className="headerSub">Round #{state?.round_id || "�"}</div>
       </div>
 
       {/* Jackpot Reel */}
@@ -352,7 +352,7 @@ export default function Home() {
         <div className="participantsList">
           {!state?.participants || state.participants.length === 0 ? (
             <div className="emptyList">
-              <div className="emptyIcon">🎲</div>
+              <div className="emptyIcon"></div>
               <div className="emptyText">No bets yet. Be the first!</div>
             </div>
           ) : (
@@ -378,7 +378,7 @@ export default function Home() {
         <div className="historyList">
           {!state?.history || state.history.length === 0 ? (
             <div className="emptyList">
-              <div className="emptyIcon">📜</div>
+              <div className="emptyIcon"></div>
               <div className="emptyText">No history yet</div>
             </div>
           ) : (
@@ -391,11 +391,11 @@ export default function Home() {
                 </div>
                 <div className="historyDetails">
                   <div className="historyPrize">
-                    <span className="prizeIcon">🏆</span>
+                    <span className="prizeIcon"></span>
                     {h.bank_ton} TON
                   </div>
                   <div className="historyNft">
-                    <span className="nftIcon">🎨</span>
+                    <span className="nftIcon"></span>
                     NFT #{h.winning_nft_index}
                   </div>
                 </div>
